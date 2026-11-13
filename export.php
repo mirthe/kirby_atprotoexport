@@ -10,8 +10,10 @@ if (!is_string($repo) || $repo === 'did:plc:') {
 $collection = 'site.standard.document';
 $publication = "at://{$repo}/site.standard.publication/". option('mirthe.atprotoexport.publication');
 
-// Export posts published on or after this date
+// Export posts published on or after this date (optional)
 $fromDate = '2026-10-01';
+
+// Filter posts by this tag (optional)
 $tag = 'uitgelicht';
 
 // get posts

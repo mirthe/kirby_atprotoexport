@@ -1,0 +1,33 @@
+{
+    "name": "mirthe/kirby_atprotoexport",
+    "version": "1.0",
+    "description": "Exports Kirby blog posts to AT Protocol (ATProto) and publishes them to Bluesky-compatible services",
+    "homepage": "https://github.com/mirthe/kirby_atprotoexport",
+    "keywords": [
+        "kirby-plugin",
+        "kirby",
+        "atproto",
+        "bluesky",
+        "eurosky",
+        "export",
+        "publishing"
+    ],
+    "type": "kirby-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mirthe Valentijn",
+            "email": "me@Mirthe.org",
+            "homepage": "https://mirthe.org"
+        }
+    ],
+    "funding": [
+        {
+            "type": "paypal",
+            "url": "https://paypal.me/MirtheValentijn"
+        }
+    ],
+    "require": {
+        "getkirby/cms": "^5.0"
+    }
+}

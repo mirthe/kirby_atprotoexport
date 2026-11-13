@@ -10,24 +10,18 @@ if (!is_string($repo) || $repo === 'did:plc:') {
 $collection = 'site.standard.document';
 $publication = "at://{$repo}/site.standard.publication/". option('mirthe.atprotoexport.publication');
 
-// which filter to use: 'date' of 'tag'
-$filterMode = 'date';
-
-// settings
+// Export posts published on or after this date
 $fromDate = '2026-10-01';
 $tag = 'uitgelicht';
 
 // get posts
 $pages = $kirby->site()->index()
     ->filterBy('template', 'blogpost');
-if ($filterMode === 'date') {
-    $pages = $pages->filter(function ($page) use ($fromDate) {
-        return $page->date()->toDate('Y-m-d') >= $fromDate;
-    });
-} elseif ($filterMode === 'tag') {
-    $pages = $pages->filterBy('tags', $tag, ',');
-}
-$pages = $pages->sortBy('date', 'desc');
+// $pages = $pages->filter(function ($page) use ($fromDate) {
+//     return $page->date()->toDate('Y-m-d') >= $fromDate;
+// });
+// $pages = $pages->filterBy('tags', $tag, ',');
+$pages = $pages->sortBy('date', 'desc')->limit(10);
 $records = [];
 
 foreach ($pages as $page) {

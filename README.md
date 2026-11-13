@@ -91,7 +91,7 @@ The export supports two selection methods:
 - **Date:** export posts published on or after a specified date.
 - **Tag:** export posts containing a specified tag.
 
-The selection method and its parameters can be configured in the export script.
+The selection method and its parameters can be configured in the export script. Default exports the last 10 posts.
 
 ## Publishing
 

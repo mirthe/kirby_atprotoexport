@@ -2,9 +2,9 @@
 
 $kirby = kirby();
 
-$repo = 'did:plc:5qithb452axywln42dxt3ani';
+$repo = $kirby->option('standard-site.repo');
 $collection = 'site.standard.document';
-$publication = "at://{$repo}/site.standard.publication/3mn5seojh6x2l";
+$publication = "at://{$repo}/site.standard.publication/". $kirby->option('standard-site.publication');
 
 // which filter to use: 'date' of 'tag'
 $filterMode = 'date';

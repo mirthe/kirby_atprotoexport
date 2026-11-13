@@ -2,6 +2,16 @@
 
 A Kirby CMS plugin to export blog posts and publish their metadata to AT Protocol (ATProto), making it possible to share content on services such as Bluesky and Eurosky.
 
+## About Standard.site
+
+[Standard.site](https://standard.site/) provides shared lexicons for long-form publishing on the AT Protocol (ATProto).
+
+It defines a common format for publications (`site.standard.publication`) and individual articles (`site.standard.document`), making blog content easier to discover, index and share across platforms in the AT Protocol ecosystem.
+
+This plugin publishes Kirby blog posts as Standard.site documents, linking them to an existing publication record. This allows other ATProto-compatible platforms to discover and display your content.
+
+Learn more: https://standard.site/ or https://hannahshelley.neocities.org/blog/2026_05_31_ATProto
+
 ## Features
 
 - Export Kirby blog posts to JSON.
@@ -32,14 +42,16 @@ Alternatively, clone the repository directly into `site/plugins/`.
 
 ## Configuration
 
-Add the following configuration to your Kirby configuration file:
+Add the following configuration to your Kirby configuration file (`config.php`):
 
 ```php
 return [
     'standard-site' => [
-        'pds'        => 'https://eurosky.social',
-        'identifier' => 'your-handle',
-        'password'   => 'your-app-password'
+        'repo'        => 'your-handle',
+        'publication' => 'your-publication-record-key',
+        'pds'         => 'https://eurosky.social',
+        'identifier'  => 'your-handle',
+        'password'    => 'your-app-password'
     ]
 ];
 ```

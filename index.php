@@ -1,6 +1,13 @@
 <?php
 
 Kirby::plugin('mirthe/atprotoexport', [
+    'options' => [
+        'repo'        => 'did:plc:' . option('atprotoexport.repo'),
+        'publication' => option('atprotoexport.publication'),
+        'pds'         => option('atprotoexport.pds'),
+        'identifier'  => option('atprotoexport.identifier'),
+        'password'    => option('atprotoexport.password'),
+    ],
     'routes' => [
         [
             'pattern' => 'atprotoexport/export',

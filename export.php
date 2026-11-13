@@ -2,14 +2,13 @@
 
 $kirby = kirby();
 
-$repoId = $kirby->option('atprotoexport.repo');
-if (!is_string($repoId) || $repoId === '') {
+$repo = option('mirthe.atprotoexport.repo');
+if (!is_string($repo) || $repo === 'did:plc:') {
     throw new RuntimeException('Missing repository ID in atprotoexport.repo configuration.');
 }
 
-$repo = 'did:plc:' . $repoId;
 $collection = 'site.standard.document';
-$publication = "at://{$repo}/site.standard.publication/". $kirby->option('atprotoexport.publication');
+$publication = "at://{$repo}/site.standard.publication/". option('mirthe.atprotoexport.publication');
 
 // which filter to use: 'date' of 'tag'
 $filterMode = 'date';

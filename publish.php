@@ -1,10 +1,7 @@
 <?php
 
-$kirby = kirby();
-
-$repoId = $kirby->option('atprotoexport.repo');
-$publicationId = $kirby->option('atprotoexport.publication');
-$repo = 'did:plc:' . $repoId;
+$repo = option('mirthe.atprotoexport.repo');
+$publicationId = option('mirthe.atprotoexport.publication');
 $collection = 'site.standard.document';
 $publication = "at://{$repo}/site.standard.publication/{$publicationId}";
 
@@ -210,11 +207,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 /**
  * Configuratie uitlezen
  */
-$pds = $kirby->option('atprotoexport.pds');
-$identifier = $kirby->option('atprotoexport.identifier');
-$password = $kirby->option('atprotoexport.password');
+$pds = option('mirthe.atprotoexport.pds');
+$identifier = option('mirthe.atprotoexport.identifier');
+$password = option('mirthe.atprotoexport.password');
 
-if (!$repoId || !$publicationId || !$pds || !$identifier || !$password) {
+if (
+    !$repo ||
+    $repo === 'did:plc:' ||
+    !$publicationId ||
+    !$pds ||
+    !$identifier ||
+    !$password
+) {
     standardSiteResult(
         'Configuration missing',
         'Check the AT Protocol settings in config.php.'

@@ -10,7 +10,7 @@ It defines a common format for publications (`site.standard.publication`) and in
 
 This plugin publishes Kirby blog posts as Standard.site documents, linking them to an existing publication record. This allows other ATProto-compatible platforms to discover and display your content.
 
-Learn more: https://standard.site/ or https://hannahshelley.neocities.org/blog/2026_05_31_ATProto
+Learn more: https://standard.site/
 
 ## Features
 
@@ -120,6 +120,8 @@ The plugin communicates with the following ATProto endpoints:
 ## One-time Setup
 
 Before publishing articles, you need to create a Standard.site publication record and verify your website.
+
+Big thanks to https://hannahshelley.neocities.org/blog/2026_05_31_ATProto for getting me started.
 
 ### 1. Log in to PDSls
 

@@ -35,7 +35,7 @@ No external Composer dependencies are required.
 Install as a Git submodule:
 
 ```bash
-git submodule add https://github.com/mirthe/kirby_atprotoexport.git site/plugins/kirby_atprotoexport
+git submodule add https://github.com/mirthe/kirby_atprotoexport.git site/plugins/atprotoexport
 ```
 
 Alternatively, clone the repository directly into `site/plugins/`.
@@ -46,7 +46,7 @@ Add the following configuration to your Kirby configuration file (`config.php`):
 
 ```php
 return [
-    'standard-site' => [
+    'atprotoexport' => [
         'repo'        => 'your-handle',
         'publication' => 'your-publication-record-key',
         'pds'         => 'https://eurosky.social',
@@ -62,7 +62,7 @@ Use an app password rather than your regular account password whenever possible.
 
 The exporter collects blog posts from the Kirby site and generates a JSON file named:
 
-`standard-site-export.json`
+`atprotoexport-export.json`
 
 The export contains:
 
@@ -80,7 +80,7 @@ The export contains:
 
 The publishing endpoint is available through the Kirby panel:
 
-`/standard-site/export`
+`/atprotoexport/export`
 
 ### Selecting posts
 
@@ -103,7 +103,7 @@ The plugin:
 
 The publishing endpoint is available through the Kirby panel:
 
-`/standard-site/publish`
+`/atprotoexport/publish`
 
 The publishing routes are restricted to authenticated panel users.
 

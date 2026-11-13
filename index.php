@@ -1,9 +1,9 @@
 <?php
 
-Kirby::plugin('mirthe/standard-site', [
+Kirby::plugin('mirthe/atprotoexport', [
     'routes' => [
         [
-            'pattern' => 'standard-site/export',
+            'pattern' => 'atprotoexport/export',
             'action'  => function () {
                 $kirby = kirby();
 
@@ -16,7 +16,7 @@ Kirby::plugin('mirthe/standard-site', [
         ],
 
         [
-            'pattern' => 'standard-site/publish',
+            'pattern' => 'atprotoexport/publish',
             'method'  => 'GET|POST',
             'action'  => function () {
                 $kirby = kirby();

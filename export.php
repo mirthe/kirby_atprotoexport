@@ -2,9 +2,9 @@
 
 $kirby = kirby();
 
-$repo = $kirby->option('standard-site.repo');
+$repo = $kirby->option('atprotoexport.repo');
 $collection = 'site.standard.document';
-$publication = "at://{$repo}/site.standard.publication/". $kirby->option('standard-site.publication');
+$publication = "at://{$repo}/site.standard.publication/". $kirby->option('atprotoexport.publication');
 
 // which filter to use: 'date' of 'tag'
 $filterMode = 'date';
@@ -70,7 +70,7 @@ if ($json === false) {
     throw new RuntimeException('JSON encoding failed: ' . json_last_error_msg());
 }
 
-$file = __DIR__ . '/standard-site-export.json';
+$file = __DIR__ . '/atprotoexport-export.json';
 
 if (file_put_contents($file, $json, LOCK_EX) === false) {
     throw new RuntimeException('Could not write export file.');

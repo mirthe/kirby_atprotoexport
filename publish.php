@@ -6,18 +6,18 @@ $repo = 'did:plc:5qithb452axywln42dxt3ani';
 $collection = 'site.standard.document';
 $publication = "at://{$repo}/site.standard.publication/3mn5seojh6x2l";
 
-$file = __DIR__ . '/standard-site-export.json';
+$file = __DIR__ . '/atprotoexport-export.json';
 
 
 /**
- * Toon een eenvoudige resultaatpagina
+ * Display a simple result page
  */
 function standardSiteResult(string $title, string $message): void
 {
     header('Content-Type: text/html; charset=utf-8');
 
     echo '<!DOCTYPE html>';
-    echo '<html lang="nl">';
+    echo '<html lang="en">';
     echo '<head>';
     echo '<meta charset="UTF-8">';
     echo '<title>' . htmlspecialchars($title) . '</title>';
@@ -26,7 +26,7 @@ function standardSiteResult(string $title, string $message): void
 
     echo '<h1>' . htmlspecialchars($title) . '</h1>';
     echo '<p>' . nl2br(htmlspecialchars($message)) . '</p>';
-    echo '<p><a href="/standard-site/publish">Terug</a></p>';
+    echo '<p><a href="/atprotoexport/publish">Back</a></p>';
 
     echo '</body>';
     echo '</html>';
@@ -85,7 +85,7 @@ function standardSiteRequest(
     curl_close($ch);
 
     if ($response === false) {
-        throw new RuntimeException('Verbindingsfout: ' . $error);
+        throw new RuntimeException('Connection error: ' . $error);
     }
 
     $data = json_decode($response, true);
@@ -98,12 +98,12 @@ function standardSiteRequest(
 
 
 /**
- * Exportbestand uitlezen en controleren
+ * Read and validate the export file
  */
 if (!is_file($file) || !is_readable($file)) {
     standardSiteResult(
-        'Exportbestand ontbreekt',
-        'Genereer eerst een export via standard-site/export.'
+        'Export file not found',
+        'Generate an export first at atprotoexport/export.'
     );
 }
 
@@ -118,21 +118,21 @@ if (
     !is_array($export['records'])
 ) {
     standardSiteResult(
-        'Ongeldige export',
-        'Het exportbestand heeft niet de verwachte structuur.'
+        'Invalid export',
+        'The export file does not have the expected structure.'
     );
 }
 
 if (count($export['records']) === 0) {
     standardSiteResult(
-        'Geen records',
-        'Er staan geen records in het exportbestand.'
+        'No records',
+        'The export file contains no records.'
     );
 }
 
 
 /**
- * Records valideren
+ * Validate records
  */
 $records = [];
 $seen = [];
@@ -150,15 +150,15 @@ foreach ($export['records'] as $item) {
         ($record['site'] ?? null) !== $publication
     ) {
         standardSiteResult(
-            'Ongeldig record',
-            'Een of meer records bevatten ongeldige gegevens.'
+            'Invalid record',
+            'One or more records contain invalid data.'
         );
     }
 
     if (isset($seen[$rkey])) {
         standardSiteResult(
-            'Dubbele record key',
-            'De export bevat een dubbele rkey: ' . $rkey
+            'Duplicate record key',
+            'The export contains a duplicate record key: ' . $rkey
         );
     }
 
@@ -172,30 +172,30 @@ foreach ($export['records'] as $item) {
 
 
 /**
- * Eerst alleen een overzicht tonen
+ * Show a summary before publishing
  */
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
     header('Content-Type: text/html; charset=utf-8');
 
     echo '<!DOCTYPE html>';
-    echo '<html lang="nl">';
+    echo '<html lang="en">';
     echo '<head>';
     echo '<meta charset="UTF-8">';
-    echo '<title>Standard.site publiceren</title>';
+    echo '<title>Publish to AT Protocol</title>';
     echo '</head>';
     echo '<body>';
 
-    echo '<h1>Standard.site publiceren</h1>';
+    echo '<h1>Publish to AT Protocol</h1>';
 
-    echo '<p>Het exportbestand is gevonden.</p>';
-    echo '<p>Aantal records: <strong>' . count($records) . '</strong></p>';
+    echo '<p>Export file found.</p>';
+    echo '<p>Number of records: <strong>' . count($records) . '</strong></p>';
 
     echo '<p>Repo: ' . htmlspecialchars($repo) . '</p>';
     echo '<p>Collection: ' . htmlspecialchars($collection) . '</p>';
 
     echo '<form method="post">';
-    echo '<button type="submit">Publiceer naar PDS</button>';
+    echo '<button type="submit">Publish to PDS</button>';
     echo '</form>';
 
     echo '</body>';
@@ -208,14 +208,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 /**
  * Configuratie uitlezen
  */
-$pds = $kirby->option('standard-site.pds');
-$identifier = $kirby->option('standard-site.identifier');
-$password = $kirby->option('standard-site.password');
+$pds = $kirby->option('atprotoexport.pds');
+$identifier = $kirby->option('atprotoexport.identifier');
+$password = $kirby->option('atprotoexport.password');
 
 if (!$pds || !$identifier || !$password) {
     standardSiteResult(
-        'Configuratie ontbreekt',
-        'Controleer de Standard.site-instellingen in config.php.'
+        'Configuration missing',
+        'Check the AT Protocol settings in config.php.'
     );
 }
 
@@ -240,15 +240,15 @@ try {
         empty($login['data']['accessJwt'])
     ) {
         standardSiteResult(
-            'Inloggen mislukt',
-            'De PDS heeft de inloggegevens niet geaccepteerd. Controleer je configuratie en app-wachtwoord.'
+            'Login failed',
+            'The PDS rejected the login credentials. Check your configuration and app password.'
         );
     }
 
     if (($login['data']['did'] ?? null) !== $repo) {
         standardSiteResult(
-            'Verkeerd account',
-            'Het ingelogde account heeft niet de verwachte DID.'
+            'Incorrect account',
+            'The signed-in account does not have the expected DID.'
         );
     }
 
@@ -297,8 +297,8 @@ try {
         } else {
 
             standardSiteResult(
-                'Controle mislukt',
-                'Kon record ' . $rkey . ' niet controleren: ' .
+                'Record check failed',
+                'Could not check record ' . $rkey . ': ' .
                 json_encode($existing['data'])
             );
         }
@@ -329,7 +329,7 @@ try {
     if ($result['status'] !== 200) {
 
         standardSiteResult(
-            'Publiceren mislukt',
+            'Publishing failed',
             json_encode($result['data'], JSON_PRETTY_PRINT)
         );
     }
@@ -339,16 +339,16 @@ try {
      * Resultaat tonen
      */
     standardSiteResult(
-        'Publiceren geslaagd',
-        count($writes) . ' records verwerkt.' . "\n\n" .
-        'Nieuw aangemaakt: ' . $created . "\n" .
-        'Bijgewerkt: ' . $updated
+        'Publishing succeeded',
+        count($writes) . ' records processed.' . "\n\n" .
+        'Created: ' . $created . "\n" .
+        'Updated: ' . $updated
     );
 
 } catch (Throwable $e) {
 
     standardSiteResult(
-        'Er is iets misgegaan',
+        'Something went wrong',
         $e->getMessage()
     );
 }

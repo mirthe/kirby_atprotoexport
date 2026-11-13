@@ -2,7 +2,12 @@
 
 $kirby = kirby();
 
-$repo = $kirby->option('atprotoexport.repo');
+$repoId = $kirby->option('atprotoexport.repo');
+if (!is_string($repoId) || $repoId === '') {
+    throw new RuntimeException('Missing repository ID in atprotoexport.repo configuration.');
+}
+
+$repo = 'did:plc:' . $repoId;
 $collection = 'site.standard.document';
 $publication = "at://{$repo}/site.standard.publication/". $kirby->option('atprotoexport.publication');
 

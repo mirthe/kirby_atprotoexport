@@ -2,9 +2,11 @@
 
 $kirby = kirby();
 
-$repo = 'did:plc:5qithb452axywln42dxt3ani';
+$repoId = $kirby->option('atprotoexport.repo');
+$publicationId = $kirby->option('atprotoexport.publication');
+$repo = 'did:plc:' . $repoId;
 $collection = 'site.standard.document';
-$publication = "at://{$repo}/site.standard.publication/3mn5seojh6x2l";
+$publication = "at://{$repo}/site.standard.publication/{$publicationId}";
 
 $file = __DIR__ . '/atprotoexport-export.json';
 
@@ -212,7 +214,7 @@ $pds = $kirby->option('atprotoexport.pds');
 $identifier = $kirby->option('atprotoexport.identifier');
 $password = $kirby->option('atprotoexport.password');
 
-if (!$pds || !$identifier || !$password) {
+if (!$repoId || !$publicationId || !$pds || !$identifier || !$password) {
     standardSiteResult(
         'Configuration missing',
         'Check the AT Protocol settings in config.php.'

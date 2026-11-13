@@ -44,10 +44,12 @@ Alternatively, clone the repository directly into `site/plugins/`.
 
 Add the following configuration to your Kirby configuration file (`config.php`):
 
+Set `repo` to the identifier part of your PLC DID, without the `did:plc:` prefix.
+
 ```php
 return [
     'atprotoexport' => [
-        'repo'        => 'your-handle',
+        'repo'        => 'your-repository-id',
         'publication' => 'your-publication-record-key',
         'pds'         => 'https://eurosky.social',
         'identifier'  => 'your-handle',

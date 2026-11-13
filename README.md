@@ -117,6 +117,87 @@ The plugin communicates with the following ATProto endpoints:
 | `com.atproto.repo.getRecord` | Check existing records |
 | `com.atproto.repo.applyWrites` | Create or update records |
 
+## One-time Setup
+
+Before publishing articles, you need to create a Standard.site publication record and verify your website.
+
+### 1. Log in to PDSls
+
+Go to [pdsls.dev](https://pdsls.dev/) and log in using your ATProto account (e.g. your Bluesky or Eurosky handle).
+
+PDSls allows you to inspect and manage records in your ATProto repository.
+
+### 2. Create a Publication Record
+
+In PDSls, click **Create Record**.
+
+Set the Collection to:
+
+`site.standard.publication`
+
+Replace the editor content with the following JSON, filling in your own details:
+
+```json
+{
+  "$type": "site.standard.publication",
+  "url": "https://yourdomain.com",
+  "name": "Your Publication Name",
+  "description": "A short description of your publication",
+  "preferences": {
+    "showInDiscover": true
+  }
+}
+```
+
+Click **Create** to publish the record.
+
+PDSls will generate an AT-URI for your publication, looking something like:
+
+`at://did:plc:YOUR_REPO_ID/site.standard.publication/YOUR_PUBLICATION_ID`
+
+Save this URI. You will need the repository ID and publication record key when configuring this plugin.
+
+### 3. Verify Your Publication
+
+Create a plain text file named `site.standard.publication` containing only your publication AT-URI (on a single line).
+
+Place this file in a `.well-known` directory at the root of your website:
+
+`https://yourdomain.com/.well-known/site.standard.publication`
+
+The file must be publicly accessible and contain no additional text or formatting.
+
+### 4. Add Publication Metadata
+
+Add the following link tag to the `<head>` section of your website:
+
+```html
+<link rel="site.standard.publication"
+      href="at://YOUR_REPO_ID/site.standard.publication/YOUR_PUBLICATION_ID" />
+```
+
+Replace `YOUR_REPO_ID` and `YOUR_PUBLICATION_ID` with the values from your publication AT-URI.
+
+This allows ATProto-compatible platforms to associate your domain with your Standard.site publication.
+
+### 5. Add Article Metadata
+
+To make individual articles discoverable, add the following to the `<head>` section of your Kirby site:
+
+```php
+<link rel="site.standard.publication"
+      href="at://YOUR_REPO_ID/site.standard.publication/YOUR_PUBLICATION_ID" />
+
+<?php if ($page->template()->name() === 'blogpost'): ?>
+<link rel="site.standard.document"
+      href="at://YOUR_REPO_ID/site.standard.document/<?= explode('://', $page->uuid())[1] ?>" />
+<?php endif ?>
+```
+
+The publication link should be included on every page. The document link should only be included on individual blog posts.
+
+Replace `YOUR_REPO_ID` and `YOUR_PUBLICATION_ID` with your own values.
+
 ## License
 
 MIT License.
